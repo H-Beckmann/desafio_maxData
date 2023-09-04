@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from 'react'
+import Clients from "././Pages/Clients/clients"
+import Client from "././Pages/Client/client"
+import { Route, Routes } from 'react-router-dom'
+import UpdateClient from './Pages/UpdateClient/updateClient'
+import CreateClient from './Pages/CreateClient/createClient'
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes>
+    <Route path='/' element={<Clients />}/>
+    <Route path='/client/:id' element={<Client />} />
+    <Route path='/updateclient/:id' element={<UpdateClient />}/>
+    <Route path='/createclient/' element={<CreateClient />}/>
+    </Routes>
+  )
 }
 
-export default App;
+export default App
