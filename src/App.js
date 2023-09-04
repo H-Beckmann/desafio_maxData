@@ -1,9 +1,9 @@
 import React from 'react'
-import Clients from "././Pages/Clients/clients"
-import Client from "././Pages/Client/client"
+import Clients from "./Pages/Clients/Clients"
+import Client from "./Pages/Client/Client"
 import { Route, Routes } from 'react-router-dom'
-import UpdateClient from './Pages/UpdateClient/updateClient'
-import CreateClient from './Pages/CreateClient/createClient'
+import UpdateClient from './Pages/UpdateClient/UpdateClient'
+import CreateClient from './Pages/CreateClient/CreateClient'
 const App = () => {
   return (
     <Routes>

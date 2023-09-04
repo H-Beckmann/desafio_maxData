@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import "./client.css"
+import "./Client.css"
 import { useNavigate, useParams } from 'react-router-dom'
+import api from "../../services/api"
 
 const Client = () => {
     const navigate = useNavigate()
@@ -8,12 +9,17 @@ const Client = () => {
     const [client, setClient] = useState({})
 
     useEffect(() => {
-      // get cliente 
-      setClient({
-        "id" : 1,
-        "nome" : "Aaa",
-        "cidade" : "teste"
+      // get cliente
+      api.get(`/v1/cliente/consultar/${id}`,{
+        headers:{
+        'accept': `application/json`,
+        'Authorization' : `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElNYXhEYXRhIiwic3ViIjoiTWF4RGF0YSBTaXN0ZW1hcyIsImV4cCI6MTY5Mzg2MjgyOX0.Lxjf-EF6rKB21GLmRNDaOGROdwGpW3TwLAB56FalXD8`,
+        'empId':`1`
+      }}).then((response)=>{
+        console.log(response.data)
+        setClient(response.data)
       })
+      
     }, [])
     
     const handleSubmit = async (e) =>{
@@ -28,8 +34,11 @@ const Client = () => {
                 <h1>Detalhes do cliente</h1>
             </div>
             <h2>Nome: {client.nome}</h2>
-            <h2>Cidade: {client.cidade}</h2>
-                    <button onClick={handleSubmit} className="btn btn-primary">Voltar</button>
+            <h2>Email: {client.email}</h2>
+            <h2>Telefone: {client.telefone}</h2>
+            <h2>CPF/CNPJ: {client.cpfCnpj}</h2>
+            <h2>Insc. Restadual: {client.rgInscEstadual}</h2>
+            <button onClick={handleSubmit} className="btn btn-primary">Voltar</button>
             </div>
         </div>
     )

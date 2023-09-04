@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import "./clients.css"
+import "./Clients.css"
 import { useNavigate } from 'react-router-dom';
-
+import api from "../../services/api"
 const Clients = () => {
     const navigate = useNavigate();
-    const [token, setToken] = useState(null);
     const [clients, setClients] = useState([]);
 
     const handleDelete = async (client) =>{
         try{
-            setClients(clients.filter((c)=>c.id !== client.id))
+            setClients(clients.filter((c)=>c.codigo !== client.codigo))
+            api.put(`/v1/cliente/desativar/${client.codigo}`,{
+                headers:{
+                    'Authorization' : `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElNYXhEYXRhIiwic3ViIjoiTWF4RGF0YSBTaXN0ZW1hcyIsImV4cCI6MTY5Mzg1NjQzNn0.-hG9-lZH9nb1MwRK5D1iSVHHXgnGGdyNrvxs-KeH_tI`,
+                    'empId':"1",
+                }
+            }).then((response)=>console.log(response.data))
             // delete passando client.id
         }catch (e) {
             console.log(e)
@@ -17,31 +22,21 @@ const Clients = () => {
     }
 
     useEffect(()=>{
-        setClients([
-            {
-              "id" : 1,
-              "nome" : "Aaa",
-              "cidade" : "Aaaa"
-            },
-            {
-              "id" : 2,
-              "nome" : "Baa",
-              "cidade" : "Baa"
-            },
-            {
-              "id" : 3,
-              "nome" : "Caa",
-              "cidade" : "Caa"
-            }
-          ])
-        //requisição da api (api.get()headers)
+        api.get(`v1/cliente/consultar?&limit=100&page=1&nome=`,{
+            headers:{
+            'accept': `application/json`,
+            'Authorization' : `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUElNYXhEYXRhIiwic3ViIjoiTWF4RGF0YSBTaXN0ZW1hcyIsImV4cCI6MTY5Mzg2MjgyOX0.Lxjf-EF6rKB21GLmRNDaOGROdwGpW3TwLAB56FalXD8`,
+            'empId':`1`
+          }}).then((response)=>{
+            console.log(response.data)
+            setClients(response.data.docs)
+          })
     },[]);
     return (
         <div className="clients">
             <div className='container'>
             <div className='buttons_container'>
             <button onClick={()=> navigate("createclient/")} className="btn btn-primary mb-4">Adicionar cliente</button>
-            <button className="btn btn-secondary mb-3">{token==null? "Autenticar":"Autenticado"}</button>
             </div>
                 <table className="table">
                     <thead>
@@ -55,12 +50,12 @@ const Clients = () => {
                     </thead>
                     <tbody>
                     {clients.map(client=>
-                        <tr key={client.id}>
+                        <tr key={client.codigo}>
                             <td>{client.nome}</td>
                             <td>{client.cidade}</td>
-                            <td><button className="btn btn-primary" onClick={()=>navigate(`client/${client.id}`)}>Detalhes</button></td>
-                            <td><button className="btn btn-primary" onClick={()=>navigate(`updateclient/${client.id}`)}>Atualizar</button></td>
-                            <td><button className="btn btn-danger" onClick={()=>handleDelete(client)}>Deletar</button></td>
+                            <td><button className="btn btn-primary" onClick={()=>navigate(`client/${client.codigo}`)}>Detalhes</button></td>
+                            <td><button className="btn btn-primary" onClick={()=>navigate(`updateclient/${client.codigo}`)}>Atualizar</button></td>
+                            <td><button className="btn btn-danger" onClick={()=>handleDelete(client)}>Desativar</button></td>
                         </tr>
                     )
                     }

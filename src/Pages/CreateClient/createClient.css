@@ -24,7 +24,11 @@
 
 .client input {
     width: 90%;
+    box-sizing: border-box;
     background: rgba(255, 255, 255, 0.3);
     outline: none;
-    border: 1px;
+    border-bottom: 1px solid;
+    border-top: none;
+    border-left: none;
+    border-right: none;
 }
